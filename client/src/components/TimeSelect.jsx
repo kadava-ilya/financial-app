@@ -1,7 +1,8 @@
 import React from "react";
-import {Box, FormControl, InputLabel, Select, MenuItem, Typography} from "@mui/material";
+import {Box, FormControl, Select, MenuItem, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {selectTimeRange, setTimeRange} from "../redux/slices/tickersSlice";
+import {setTimeRange} from "../redux/slices/tickersSlice";
+import {selectTimeRange} from "../redux/selectors";
 import socketIOClient from "socket.io-client";
 
 const TIME_RANGES = [

@@ -1,9 +1,9 @@
 import React from "react";
-import {Box, IconButton, InputAdornment, TextField} from "@mui/material";
-import {selectInputValue, setInputValue} from "../redux/slices/searchSlice";
-import ClearInputIcon from "../assets/icons/ClearInputIcon";
+import {Box, InputAdornment, TextField} from "@mui/material";
+import {setInputValue} from "../../redux/slices/searchSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {ClearButton} from "./ClearButton";
+import {ClearButton} from "../ClearButton";
+import {selectInputValue} from "../../redux/selectors";
 
 export const SearchInput = () => {
 

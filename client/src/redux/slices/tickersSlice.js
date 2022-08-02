@@ -16,16 +16,16 @@ const tickersSlice = createSlice({
         removeTicker(state, action) {
             state.removedTicker.push(action.payload);
         },
+        showTicker(state, action) {
+            state.removedTicker = state.removedTicker.filter(ticker => {return ticker !== action.payload})
+        },
         setTimeRange(state, action) {
             state.timeRange = action.payload;
         }
     }
 })
 
-export const selectTickers = state => state.tickers.tickers;
-export const selectRemovedTicker = state => state.tickers.removedTicker;
-export const selectTimeRange = state => state.tickers.timeRange;
 
-export const {setTickers, removeTicker, setTimeRange} = tickersSlice.actions;
+export const {setTickers, removeTicker, showTicker, setTimeRange} = tickersSlice.actions;
 
 export default tickersSlice.reducer;
