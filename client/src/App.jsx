@@ -7,12 +7,12 @@ import {
 } from "@mui/material";
 
 import {useDispatch, useSelector} from "react-redux";
-import {SearchInput} from "./components/SearchInput/SearchInput";
+import {SearchInput} from "./components/SearchInput";
 import {setTickers} from "./redux/slices/tickersSlice";
 import {selectTimeRange} from "./redux/selectors";
 import {FinanceTable} from "./components/FinanceTable";
 import {TimeSelect} from "./components/TimeSelect";
-import {RemovedTickers} from "./components/RemovedTickers/RemovedTickers";
+import {RemovedTickers} from "./components/RemovedTickers";
 
 const ENDPOINT = 'http://localhost:4000/'
 const socket = socketIOClient(ENDPOINT)

@@ -1,9 +1,9 @@
 import React from "react";
 import {Box, InputAdornment, TextField} from "@mui/material";
-import {setInputValue} from "../../redux/slices/searchSlice";
+import {setInputValue, setInputClear} from "../redux/slices/searchSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {ClearButton} from "../ClearButton";
-import {selectInputValue} from "../../redux/selectors";
+import {ClearButton} from "./ClearButton";
+import {selectInputValue} from "../redux/selectors";
 
 export const SearchInput = () => {
 
@@ -22,7 +22,7 @@ export const SearchInput = () => {
                     endAdornment: (
                         <InputAdornment position="end">
                             {inputValueRedux && (
-                                <ClearButton onClick={setInputValue('')}/>
+                                <ClearButton onClick={setInputClear()}/>
                             )}
                         </InputAdornment>
                     ),

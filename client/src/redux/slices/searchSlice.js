@@ -10,10 +10,13 @@ const searchSlice = createSlice({
     reducers: {
         setInputValue(state, action) {
             state.inputText = action.payload;
+        },
+        setInputClear(state) {
+            state.inputText = ''
         }
     }
 })
 
-export const {setInputValue} = searchSlice.actions;
+export const {setInputValue, setInputClear} = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -6,40 +6,8 @@ import {selectInputValue, selectTickers, selectRemovedTicker} from "../../redux/
 
 import {ClearButton} from "../ClearButton";
 import {SkeletonBox} from "./SkeletonBox";
-
-import AmazonLogo from '../../assets/icons/logos/Amazon_logo.png'
-import AppleLogo from '../../assets/icons/logos/Apple_logo.png'
-import FacebookLogo from '../../assets/icons/logos/Facebook_logo.png'
-import GoogleLogo from '../../assets/icons/logos/Google_logo.png'
-import MicrosoftLogo from '../../assets/icons/logos/Microsoft_logo.png'
-import TeslaLogo from '../../assets/icons/logos/Tesla_logo.png'
-
-const TABLE_HEADER = ['', 'Ticker', 'Exchange', 'Price, USD', 'Changed, USD', 'Changed, %', 'Dividend', 'Yield', 'Last Trade', '']
-
-const TABLE_ICONS = (path) => {
-    switch (path) {
-        case 'AAPL':
-            return AppleLogo
-        break;
-        case 'AMZN':
-            return AmazonLogo
-        break;
-        case 'FB':
-            return FacebookLogo
-        break;
-        case 'GOOGL':
-            return GoogleLogo
-        break;
-        case 'MSFT':
-            return MicrosoftLogo
-        break;
-        case 'TSLA':
-            return TeslaLogo
-        break;
-        default:
-
-    }
-}
+import {TABLE_HEADER} from "../../utils/constants";
+import {TABLE_ICONS} from "../../utils/constants";
 
 const bgColorFunc = (test) => {
     if (test.includes('-')) {
@@ -55,11 +23,25 @@ const bgColorFunc = (test) => {
     }
 }
 
-const TestComponent = styled(Typography)({
+const TextWithActiveBG = styled(Typography)({
     borderRadius: 5,
     textAlign: 'center',
     maxWidth: 80,
 })
+
+const TableCol = styled(TableCell)({
+    minWidth: 120,
+    textAlign: 'center',
+    padding: 12,
+})
+
+const StyledRow = styled(TableRow)(() => ({
+    '&.MuiTableRow-root': {
+        '&:hover': {
+            backgroundColor: '#f2f6ff'
+        },
+    },
+}));
 
 export const FinanceTable = () => {
 
@@ -81,9 +63,9 @@ export const FinanceTable = () => {
                 <TableHead>
                     <TableRow>
                         {TABLE_HEADER.map((title, index) => (
-                            <TableCell key={index}>
+                            <TableCol key={index}>
                                 {title}
-                            </TableCell>
+                            </TableCol>
                         ))}
                     </TableRow>
                 </TableHead>
@@ -93,49 +75,48 @@ export const FinanceTable = () => {
                             .filter((el) => el.ticker.toLowerCase().includes(inputValueRedux.toLowerCase()))
                             .filter(e => !removedTicker.includes(e.ticker))
                             .map((obj, i) => (
-                                <TableRow key={i}>
-                                    <TableCell>
+                                <StyledRow key={i}>
+                                    <TableCol>
                                         <img style={{width: '20px', height: 'auto'}} src={TABLE_ICONS(obj.ticker)} alt=""/>
-                                    </TableCell>
-                                    <TableCell>
+                                    </TableCol>
+                                    <TableCol>
                                         {obj.ticker}
-                                    </TableCell>
-                                    <TableCell>
+                                    </TableCol>
+                                    <TableCol>
                                         {obj.exchange}
-                                    </TableCell>
-                                    <TableCell>
+                                    </TableCol>
+                                    <TableCol>
                                         {obj.price}
-                                    </TableCell>
-                                    <TableCell>
-                                        <TestComponent sx={bgColorFunc(obj.change)}>
-                                            {/*{obj.change}*/}
+                                    </TableCol>
+                                    <TableCol>
+                                        <TextWithActiveBG sx={bgColorFunc(obj.change)}>
                                             {addPlusToPositiveNum(obj.change)}
-                                        </TestComponent>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TestComponent sx={bgColorFunc(obj.change_percent)}>
-                                            {/*{obj.change_percent}*/}
+                                        </TextWithActiveBG>
+                                    </TableCol>
+                                    <TableCol>
+                                        <TextWithActiveBG sx={bgColorFunc(obj.change_percent)}>
                                             {addPlusToPositiveNum(obj.change_percent)}
-                                        </TestComponent>
-                                    </TableCell>
-                                    <TableCell>
+                                        </TextWithActiveBG>
+                                    </TableCol>
+                                    <TableCol>
                                         {obj.dividend}
-                                    </TableCell>
-                                    <TableCell>
+                                    </TableCol>
+                                    <TableCol>
                                         {obj.yield}
-                                    </TableCell>
-                                    <TableCell>
+                                    </TableCol>
+                                    <TableCol>
                                         {new Date(obj.last_trade_time).toLocaleString()}
-                                    </TableCell>
+                                    </TableCol>
 
-                                    <TableCell>
+                                    <TableCol>
                                         <ClearButton onClick={removeTicker(obj.ticker)} />
-                                    </TableCell>
-                                </TableRow>
+                                    </TableCol>
+
+                                </StyledRow>
                             ))
                         : ([...new Array(6)].map((_, index) => (
                             <TableRow key={index}>
-                                {[...new Array(8)].map((_, index) => <TableCell key={index}>
+                                {[...new Array(10)].map((_, index) => <TableCell key={index} sx={{margin: '0 auto'}}>
                                     <SkeletonBox />
                                 </TableCell>)}
                             </TableRow>)))
@@ -145,14 +126,3 @@ export const FinanceTable = () => {
         </>
     )
 }
-
-{/*{Object.keys(obj)*/}
-{/*    .filter(() => obj.ticker.toLowerCase().includes(inputValueRedux.toLowerCase()))*/}
-{/*    .map((key, index) => {*/}
-{/*        return (*/}
-{/*            <TableCell key={index}>*/}
-{/*                {obj[key]}*/}
-{/*            </TableCell>*/}
-{/*        )*/}
-{/*    })*/}
-{/*}*/}
