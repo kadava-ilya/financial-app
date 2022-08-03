@@ -26,3 +26,4 @@ Price tickers are real-time via web-sockets.
 - **Removable tickers** - Any ticker may be removed from the watching group by clicking the "X" button. If user wants to add it back to watching group - chose it in special section with removed tickers and press the button with the ticker you need.
 - **Interval time** - It's possible to specify interval time by user.
 - **Visual effects** - Positive and negative changes in the prices are highlighted.
+- **Skeletons** - If the server isn't started, skeletons will be rendered in the table.
