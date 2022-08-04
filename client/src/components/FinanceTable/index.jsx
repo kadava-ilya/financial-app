@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {styled, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import {removeTicker} from "../../redux/slices/tickersSlice";
@@ -8,20 +8,8 @@ import {ClearButton} from "../ClearButton";
 import {SkeletonBox} from "./SkeletonBox";
 import {TABLE_HEADER} from "../../utils/constants";
 import {TABLE_ICONS} from "../../utils/constants";
-
-const bgColorFunc = (test) => {
-    if (test.includes('-')) {
-        return {backgroundColor: '#fa6e8a', color: '#b30435'}
-    }
-
-    else if (parseFloat(test) === 0) {
-        return {backgroundColor: '#edebeb'}
-    }
-
-    else {
-        return {backgroundColor: '#aff792', color: '#227a1d'}
-    }
-}
+import {checkPositiveNumber} from "../../utils/functions/checkPositiveNumber";
+import {setBgColor} from "../../utils/functions/setBgColor";
 
 const TextWithActiveBG = styled(Typography)({
     borderRadius: 5,
@@ -43,19 +31,16 @@ const StyledRow = styled(TableRow)(() => ({
     },
 }));
 
-export const FinanceTable = () => {
+export const FinanceTable = ({tickersData, inputValue, removedTicker}) => {
+    const [filteredTickersData, setFilteredTickersData] = useState([])
 
-    const tickersData = useSelector(selectTickers);
-    const inputValueRedux = useSelector(selectInputValue);
-    const removedTicker = useSelector(selectRemovedTicker);
-
-    const addPlusToPositiveNum = (num) => {
-        if (num > 0) {
-            return `+${num}`
-        }
-
-        return num
-    }
+    useEffect(() => {
+        setFilteredTickersData(
+            tickersData
+                .filter((el) => el.ticker.toLowerCase().includes(inputValue.toLowerCase()))
+                .filter(e => !removedTicker.includes(e.ticker))
+        )
+    }, [tickersData, inputValue, removedTicker])
 
     return (
         <>
@@ -71,9 +56,7 @@ export const FinanceTable = () => {
                 </TableHead>
                 <TableBody>
                     {tickersData.length
-                        ? tickersData
-                            .filter((el) => el.ticker.toLowerCase().includes(inputValueRedux.toLowerCase()))
-                            .filter(e => !removedTicker.includes(e.ticker))
+                        ? filteredTickersData
                             .map((obj, i) => (
                                 <StyledRow key={i}>
                                     <TableCol>
@@ -89,13 +72,13 @@ export const FinanceTable = () => {
                                         {obj.price}
                                     </TableCol>
                                     <TableCol>
-                                        <TextWithActiveBG sx={bgColorFunc(obj.change)}>
-                                            {addPlusToPositiveNum(obj.change)}
+                                        <TextWithActiveBG sx={setBgColor(parseFloat(obj.change))}>
+                                            {checkPositiveNumber(obj.change)}
                                         </TextWithActiveBG>
                                     </TableCol>
                                     <TableCol>
-                                        <TextWithActiveBG sx={bgColorFunc(obj.change_percent)}>
-                                            {addPlusToPositiveNum(obj.change_percent)}
+                                        <TextWithActiveBG sx={setBgColor(parseFloat(obj.change_percent))}>
+                                            {checkPositiveNumber(obj.change_percent)}
                                         </TextWithActiveBG>
                                     </TableCol>
                                     <TableCol>

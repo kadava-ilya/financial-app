@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import './App.css';
-import socketIOClient from "socket.io-client";
+import socket from "./socket/socket";
 
 import {
     Container,
@@ -9,26 +9,26 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {SearchInput} from "./components/SearchInput";
 import {setTickers} from "./redux/slices/tickersSlice";
-import {selectTimeRange} from "./redux/selectors";
+import {selectInputValue, selectRemovedTicker, selectTickers, selectTimeRange} from "./redux/selectors";
 import {FinanceTable} from "./components/FinanceTable";
 import {TimeSelect} from "./components/TimeSelect";
 import {RemovedTickers} from "./components/RemovedTickers";
 
-const ENDPOINT = 'http://localhost:4000/'
-const socket = socketIOClient(ENDPOINT)
-
 function App() {
     const dispatch = useDispatch();
-
     const timeRange = useSelector(selectTimeRange)
 
-    socket.emit('start', timeRange)
-
     useEffect(() => {
+        socket.emit('start', timeRange)
+
         socket.on('ticker', (data) => {
             dispatch(setTickers(data))
         })
     }, [socket, timeRange])
+
+    const tickersData = useSelector(selectTickers);
+    const inputValue = useSelector(selectInputValue);
+    const removedTicker = useSelector(selectRemovedTicker);
 
     return (
         <div className="App">
@@ -37,7 +37,11 @@ function App() {
 
                 <TimeSelect />
 
-                <FinanceTable />
+                <FinanceTable
+                    tickersData={tickersData}
+                    removedTicker={removedTicker}
+                    inputValue={inputValue}
+                />
 
                 <RemovedTickers />
             </Container>

@@ -8,20 +8,20 @@ import {selectInputValue} from "../redux/selectors";
 export const SearchInput = () => {
 
     const dispatch = useDispatch();
-    const inputValueRedux = useSelector(selectInputValue);
+    const inputValue = useSelector(selectInputValue);
 
     return (
         <Box component="form">
             <TextField
                 id=''
                 sx={{minWidth: 300}}
-                value={inputValueRedux}
+                value={inputValue}
                 placeholder='Search'
                 onChange={(e) => dispatch(setInputValue(e.target.value))}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
-                            {inputValueRedux && (
+                            {inputValue && (
                                 <ClearButton onClick={setInputClear()}/>
                             )}
                         </InputAdornment>
