@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {styled, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@mui/material";
-import {useSelector} from "react-redux";
 import {removeTicker} from "../../redux/slices/tickersSlice";
-import {selectInputValue, selectTickers, selectRemovedTicker} from "../../redux/selectors";
 
 import {ClearButton} from "../ClearButton";
 import {SkeletonBox} from "./SkeletonBox";
